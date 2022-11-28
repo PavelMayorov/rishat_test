@@ -1,9 +1,10 @@
+import os
+
 from django.views import View
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 from dotenv import load_dotenv
 import stripe
-import os
 
 from .models import Item
 
@@ -23,7 +24,7 @@ class CancelView(TemplateView):
 class ItemView(TemplateView):
     template_name = 'item.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         item = Item.objects.get(id=self.kwargs['item_id'])
         context = super(ItemView, self).get_context_data()
         context.update({
@@ -34,7 +35,7 @@ class ItemView(TemplateView):
 
 
 class BuyView(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs) -> JsonResponse:
         item = Item.objects.get(id=self.kwargs['item_id'])
         domain = os.getenv('YOUR_DOMAIN')
         checkout_session = stripe.checkout.Session.create(

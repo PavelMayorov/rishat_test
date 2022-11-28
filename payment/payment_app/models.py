@@ -6,8 +6,8 @@ class Item(models.Model):
     description: str = models.CharField(max_length=3000)
     price: int = models.IntegerField()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
-    def get_display_price(self):
+    def get_display_price(self) -> str:
         return f'{self.price / 100:.2f}'
